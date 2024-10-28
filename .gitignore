@@ -1,0 +1,42 @@
+# Compilação e dependências do Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Configurações de build do Maven
+target/
+!src/main/resources/
+!src/test/resources/
+
+# Configurações de build do Gradle
+.gradle/
+build/
+
+# Arquivos de configuração de IDEs (IntelliJ, Eclipse, VS Code)
+# IntelliJ
+.idea/
+*.iml
+out/
+# Eclipse
+.project
+.classpath
+.settings/
+# VS Code
+.vscode/
+
+# Arquivos de log
+*.log
+
+# Arquivos temporários do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de backup
+*.bak
+*.tmp
+
+# Diretórios de teste e de relatórios de cobertura
+test-output/
+reports/
+jacoco/
