@@ -3,24 +3,27 @@ package modelos;
 import calculos.Classificavel;
 
 public class Filme extends Titulo implements Classificavel {
-    private String Diretor;
+    private String diretor;
 
-    public Filme(String nome, int anoLancamento, boolean inclusoNoPlano, double somaDasAvaliacoes, int totalAvaliacoes, int duracaoEmMinutos, String diretor) {
-        super(nome, anoLancamento, inclusoNoPlano, somaDasAvaliacoes, totalAvaliacoes, duracaoEmMinutos);
-        Diretor = diretor;
-    }
-
-    // getters e setters
-
-    public int getClassificacao() {
-        return (int) calculaMediaAvaliacoes() /2 ;
+    public Filme(String nome, int anoDeLancamento) {
+        super(nome, anoDeLancamento);
     }
 
     public String getDiretor() {
-        return Diretor;
+        return diretor;
     }
 
     public void setDiretor(String diretor) {
-        Diretor = diretor;
+        this.diretor = diretor;
+    }
+
+    @Override
+    public int getClassificacao() {
+        return (int) pegaMedia() / 2;
+    }
+
+    @Override
+    public String toString() {
+        return "Filme: " + this.getNome() + " (" + this.getAnoDeLancamento() + ")";
     }
 }

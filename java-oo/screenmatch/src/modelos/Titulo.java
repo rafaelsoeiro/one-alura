@@ -1,88 +1,89 @@
 package modelos;
 
-public class Titulo {
+import com.google.gson.annotations.SerializedName;
+import excecao.ErroDeConversaoDeAnoException;
+
+public class Titulo implements Comparable<Titulo> {
     private String nome;
-    private int anoLancamento;
-    private boolean inclusoNoPlano;
+    private int anoDeLancamento;
+    private boolean incluidoNoPlano;
     private double somaDasAvaliacoes;
-    private int totalAvaliacoes;
+    private int totalDeAvaliacoes;
     private int duracaoEmMinutos;
 
-    public Titulo(String nome, int anoLancamento, boolean inclusoNoPlano, double somaDasAvaliacoes, int totalAvaliacoes, int duracaoEmMinutos) {
+    public Titulo(String nome, int anoDeLancamento) {
         this.nome = nome;
-        this.anoLancamento = anoLancamento;
-        this.inclusoNoPlano = inclusoNoPlano;
-        this.somaDasAvaliacoes = somaDasAvaliacoes;
-        this.totalAvaliacoes = totalAvaliacoes;
-        this.duracaoEmMinutos = duracaoEmMinutos;
+        this.anoDeLancamento = anoDeLancamento;
     }
 
-    public void avalia(double nota){
-        this.totalAvaliacoes++;
-        this.somaDasAvaliacoes += nota;
-    }
+    public Titulo(TituloOmdb meuTituloOmdb) {
+        this.nome = meuTituloOmdb.title();
 
-    public void fichaTecnica() {
-        System.out.println("Titulo='" + nome + '\'' +
-                ", Ano Lancamento= " + anoLancamento +
-                ", Incluso no Plano= " + inclusoNoPlano +
-                ", Media das Avaliacoes= " + calculaMediaAvaliacoes() +
-                ", Duracao em Minutos= " + duracaoEmMinutos + ".");
-    }
-
-    public double calculaMediaAvaliacoes(){
-        if ( totalAvaliacoes == 0 ) {
-            return 0;
-        }else {
-            return (double) this.somaDasAvaliacoes / this.totalAvaliacoes;
+        if(meuTituloOmdb.year().length() > 4) {
+            throw new ErroDeConversaoDeAnoException("Não consegui converter o ano " +
+                    "porque tem mais de 04 caracteres.");
         }
+        this.anoDeLancamento = Integer.valueOf(meuTituloOmdb.year());
+        this.duracaoEmMinutos = Integer.valueOf(meuTituloOmdb.runtime().substring(0, 2));
     }
 
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public int getAnoDeLancamento() {
+        return anoDeLancamento;
     }
 
-    public int getAnoLancamento() {
-        return anoLancamento;
-    }
-
-    public void setAnoLancamento(int anoLancamento) {
-        this.anoLancamento = anoLancamento;
-    }
-
-    public boolean isInclusoNoPlano() {
-        return inclusoNoPlano;
-    }
-
-    public void setInclusoNoPlano(boolean inclusoNoPlano) {
-        this.inclusoNoPlano = inclusoNoPlano;
-    }
-
-    public double getSomaDasAvaliacoes() {
-        return somaDasAvaliacoes;
-    }
-
-    public void setSomaDasAvaliacoes(double somaDasAvaliacoes) {
-        this.somaDasAvaliacoes = somaDasAvaliacoes;
-    }
-
-    public int getTotalAvaliacoes() {
-        return totalAvaliacoes;
-    }
-
-    public void setTotalAvaliacoes(int totalAvaliacoes) {
-        this.totalAvaliacoes = totalAvaliacoes;
+    public boolean isIncluidoNoPlano() {
+        return incluidoNoPlano;
     }
 
     public int getDuracaoEmMinutos() {
         return duracaoEmMinutos;
     }
 
+    public int getTotalDeAvaliacoes() {
+        return totalDeAvaliacoes;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setAnoDeLancamento(int anoDeLancamento) {
+        this.anoDeLancamento = anoDeLancamento;
+    }
+
+    public void setIncluidoNoPlano(boolean incluidoNoPlano) {
+        this.incluidoNoPlano = incluidoNoPlano;
+    }
+
     public void setDuracaoEmMinutos(int duracaoEmMinutos) {
         this.duracaoEmMinutos = duracaoEmMinutos;
+    }
+
+    public void exibeFichaTecnica(){
+        System.out.println("Nome do filme: " + nome);
+        System.out.println("Ano de lançamento: " + anoDeLancamento);
+    }
+
+    public void avalia(double nota){
+        somaDasAvaliacoes += nota;
+        totalDeAvaliacoes++;
+    }
+
+    public double pegaMedia(){
+        return somaDasAvaliacoes / totalDeAvaliacoes;
+    }
+
+    @Override
+    public int compareTo(Titulo outroTitulo) {
+        return this.getNome().compareTo(outroTitulo.getNome());
+    }
+
+    @Override
+    public String toString() {
+        return "Nome: '" + nome + '\'' + ", Ano de Lançamento: " + anoDeLancamento + ", Duração: "+ duracaoEmMinutos +" minutos.";
     }
 }

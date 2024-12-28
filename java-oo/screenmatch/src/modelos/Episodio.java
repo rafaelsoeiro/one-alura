@@ -7,6 +7,7 @@ public class Episodio implements Classificavel {
     private String Nome;
     private Serie serie;
     private int totalvisualizacoes;
+
     public Episodio(int numero, String nome, Serie serie) {
         this.numero = numero;
         Nome = nome;
